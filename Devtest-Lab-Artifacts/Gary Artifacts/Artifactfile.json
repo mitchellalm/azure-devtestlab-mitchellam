@@ -1,0 +1,32 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Azure/azure-devtestlab/master/schemas/2015-01-01/dtlArtifacts.json",
+  "title": "Gary Test Artifacts",
+  "publisher": "Mitchell ALM",
+  "description": "Install and configure something",
+  "tags": [
+    "Gary",
+    "Mitchell"
+  ],
+  "iconUri": "http://www.mitchell.com/Portals/0/mitchell-logo.gif",
+  "targetOsType": "Windows",
+  "parameters": {
+    "firstArgument": {
+      "type": "string",
+      "displayName": "Enter your name string here:",
+      "description": "Gary note here"
+    },
+    "secondsArgument": {
+      "type": "string",
+      "displayName": "Enter your age integer here:",
+      "description": "Gary note here"
+    },
+    "thirdArgument": {
+      "type": "array",
+      "displayName": "Here is a json array:",
+      "description": "Gary note here"
+    }
+  },
+  "runCommand": {
+    "commandToExecute": "powershell.exe -File installbc.ps1"
+  }
+}
