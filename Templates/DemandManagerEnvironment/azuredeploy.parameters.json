@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "newVMName": {
-      "value": "MyVM1pwdcus"
+      "value": "TestCustomVM30"
     },
     "existingLabName": {
       "value": "GaryTestLab"
@@ -12,7 +12,7 @@
       "value": "/subscriptions/352b4bd5-2f5d-4e82-ab23-37e96afc58b1/resourcegroups/garytestlabrg037817/providers/microsoft.devtestlab/labs/garytestlab/customimages/sqlddrive"
     },
     "newVMSize": {
-      "value": "Standard_A4"
+      "value": "Standard_DS1_v2"
     },
     "userName": {
       "value": "SomeAdmin"
