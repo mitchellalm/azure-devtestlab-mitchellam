@@ -3,22 +3,22 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "newVMName": {
-      "value": "MyVM1pwdcus"
+      "value": "GaryAutoVM"
     },
     "existingLabName": {
-      "value": "MyLab1"
+      "value": "GaryTestLab"
     },
     "existingCustomImageId": {
-      "value": "/subscriptions/1234a3bc-ee4e-4c7a-9709-1868a28b1d4d/resourceGroups/myRG234/providers/Microsoft.DevTestLab/labs/MyLab1/customImages/MyCustomImage1"
+      "value": "/subscriptions/352b4bd5-2f5d-4e82-ab23-37e96afc58b1/resourcegroups/garytestlabrg037817/providers/microsoft.devtestlab/labs/garytestlab/customimages/sqlddrive"
     },
     "newVMSize": {
       "value": "Standard_A4"
     },
     "userName": {
-      "value": "SomeAdmin"
+      "value": "chau    "
     },
     "password": {
-      "value": "SomePassword!"
+      "value": "iBreakUbuil7"
     }
   }
 }
