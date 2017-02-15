@@ -53,7 +53,7 @@
     {
       "name": "[variables('resourceName')]",
       "apiVersion": "2015-06-15",
-      "type": "Microsoft.Compute/virtualMachines",
+      "type": "Microsoft.Compute/labs/virtualMachines",
       "location": "[resourceGroup().location]",
       "properties": {
         "customImageId": "[parameters('existingCustomImageId')]",
