@@ -20,6 +20,12 @@
         "description": "The id of an existing custom image which will be used to create the new vm. The specified image must exist in the lab (identified via the 'existingLabName' parameter)."
       }
     },
+    "existingCustomImageId2": {
+      "type": "string",
+      "metadata": {
+        "description": "The id of an existing custom image which will be used to create the new vm. The specified image must exist in the lab (identified via the 'existingLabName' parameter)."
+      }
+    },
     "newVMSize": {
       "type": "string",
       "metadata": {
@@ -67,10 +73,10 @@
     {
       "apiVersion": "2016-05-15",
       "type": "Microsoft.DevTestLab/labs/virtualMachines",
-      "name": "[concat(parameters('existingLabName'), '/', 'CustomTestVM32')]",
+      "name": "[concat(parameters('existingLabName'), '/', 'GaryAcsVM7')]",
       "location": "[resourceGroup().location]",
       "properties": {
-        "customImageId": "[parameters('existingCustomImageId')]",
+        "customImageId": "[parameters('existingCustomImageId2')]",
         "size": "[parameters('newVMSize')]",
         "isAuthenticationWithSshKey": false,
         "userName": "[parameters('userName')]",
@@ -85,10 +91,10 @@
     {
       "apiVersion": "2016-05-15",
       "type": "Microsoft.DevTestLab/labs/virtualMachines",
-      "name": "[concat(parameters('existingLabName'), '/', 'CustomTestVM31')]",
+      "name": "[concat(parameters('existingLabName'), '/', 'GaryAcsVM6')]",
       "location": "[resourceGroup().location]",
       "properties": {
-        "customImageId": "[parameters('existingCustomImageId')]",
+        "customImageId": "[parameters('existingCustomImageId2')]",
         "size": "[parameters('newVMSize')]",
         "isAuthenticationWithSshKey": false,
         "userName": "[parameters('userName')]",
