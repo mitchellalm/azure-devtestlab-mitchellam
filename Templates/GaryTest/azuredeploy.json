@@ -44,7 +44,10 @@
     "labVirtualNetworkId": "[resourceId('Microsoft.DevTestLab/labs/virtualnetworks', parameters('existingLabName'), variables('labVirtualNetworkName'))]",
     "labVirtualNetworkName": "mitchell__azure",
     "resourceName": "[concat(parameters('existingLabName'), '/', parameters('newVMName'))]",
-    "resourceType": "Microsoft.DevTestLab/labs/virtualMachines"
+    "resourceType": "Microsoft.DevTestLab/labs/virtualMachines",
+    "sqlImagePublisher": "MicrosoftSQLServer",
+    "sqlImageOffer": "SQL2014-WS2012R2",
+    "sqlImageSku": "Standard"
   },
   "resources": [
     {
@@ -55,15 +58,15 @@
       "properties": {
         "customImageId": "[parameters('existingCustomImageId')]",
         "size": "[parameters('newVMSize')]",
-        "isAuthenticationWithSshKey": false,
         "userName": "[parameters('userName')]",
-        "sshKey": "",
+       
         "password": "[parameters('password')]",
         "labVirtualNetworkId": "[variables('labVirtualNetworkId')]",
         "labSubnetName": "[variables('labSubnetName')]",
         "disallowPublicIpAddress": true
       }
     }
+ 
 
   ],
   "outputs": {
