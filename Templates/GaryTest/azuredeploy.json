@@ -20,12 +20,6 @@
         "description": "The id of an existing custom image which will be used to create the new vm. The specified image must exist in the lab (identified via the 'existingLabName' parameter)."
       }
     },
-    "existingCustomImageId2": {
-      "type": "string",
-      "metadata": {
-        "description": "The id of an existing custom image which will be used to create the new vm. The specified image must exist in the lab (identified via the 'existingLabName' parameter)."
-      }
-    },
     "newVMSize": {
       "type": "string",
       "metadata": {
@@ -55,46 +49,11 @@
   "resources": [
     {
       "apiVersion": "2016-05-15",
-      "type": "Microsoft.DevTestLab/labs/virtualMachines",
+      "type": "Microsoft.Compute/virtualMachines",
       "name": "[variables('resourceName')]",
       "location": "[resourceGroup().location]",
       "properties": {
         "customImageId": "[parameters('existingCustomImageId')]",
-        "size": "[parameters('newVMSize')]",
-        "isAuthenticationWithSshKey": false,
-        "userName": "[parameters('userName')]",
-        "sshKey": "",
-        "password": "[parameters('password')]",
-        "labVirtualNetworkId": "[variables('labVirtualNetworkId')]",
-        "labSubnetName": "[variables('labSubnetName')]",
-        "disallowPublicIpAddress": true
-      }
-    },
-    {
-      "apiVersion": "2016-05-15",
-      "type": "Microsoft.DevTestLab/labs/virtualMachines",
-      "name": "[concat(parameters('existingLabName'), '/', 'GaryAcsVM7')]",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "customImageId": "[parameters('existingCustomImageId2')]",
-        "size": "[parameters('newVMSize')]",
-        "isAuthenticationWithSshKey": false,
-        "userName": "[parameters('userName')]",
-        "sshKey": "",
-        "password": "[parameters('password')]",
-        "labVirtualNetworkId": "[variables('labVirtualNetworkId')]",
-        "labSubnetName": "[variables('labSubnetName')]",
-        "disallowPublicIpAddress": true
-      }
-    },
-
-    {
-      "apiVersion": "2016-05-15",
-      "type": "Microsoft.DevTestLab/labs/virtualMachines",
-      "name": "[concat(parameters('existingLabName'), '/', 'GaryAcsVM6')]",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "customImageId": "[parameters('existingCustomImageId2')]",
         "size": "[parameters('newVMSize')]",
         "isAuthenticationWithSshKey": false,
         "userName": "[parameters('userName')]",
