@@ -12,7 +12,7 @@
     },
     "environmentName": {
       "type": "string",
-      "defaultValue": "env001"
+      "defaultValue": "env003"
     },
     "TestNetworkInterfaceName": {
       "type": "string",
@@ -24,7 +24,7 @@
     },
     "armTemplateName": {
       "type": "string",
-      "defaultValue": "GaryTestEnv"
+      "defaultValue": "GaryTest"
     }
   },
   "variables": {
@@ -55,6 +55,10 @@
     "environmentId": {
       "type": "string",
       "value": "[variables('environmentId')]"
+    },
+    "templateId": {
+      "type": "string",
+      "value": "[variables('templateId')]"
     }
   }
 }
