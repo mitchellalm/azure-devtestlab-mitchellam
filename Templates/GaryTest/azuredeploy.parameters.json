@@ -2,26 +2,11 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "newVMName": {
-      "value": "GaryAcsVM5"
-    },
-    "existingLabName": {
-      "value": "ACS"
-    },
-    "existingCustomImageId": {
-      "value": "/subscriptions/352b4bd5-2f5d-4e82-ab23-37e96afc58b1/resourcegroups/acsrg527780/providers/microsoft.devtestlab/labs/acs/customimages/garycustomtemplate1"
-    },
-    "existingCustomImageId2": {
-      "value": "/subscriptions/352b4bd5-2f5d-4e82-ab23-37e96afc58b1/resourcegroups/acsrg527780/providers/microsoft.devtestlab/labs/acs/customimages/garycustomtemplate2"
-    },
-    "newVMSize": {
-      "value": "Standard_DS1_v2"
-    },
-    "userName": {
-      "value": "SomeAdmin"
+    "username": {
+      "value": "contoso"
     },
     "password": {
-      "value": "SomePassword!"
+      "value": "P!1#####"
     }
   }
 }
