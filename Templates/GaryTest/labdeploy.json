@@ -4,7 +4,7 @@
   "parameters": {
     "labName": {
       "type": "string",
-      "defaultValue": "GaryTestLab"
+      "defaultValue": "MainDevTestLab"
     },
     "userObjectId": {
       "type": "string",
@@ -14,24 +14,17 @@
       "type": "string",
       "defaultValue": "env001"
     },
-    "armParaName": {
+    "TestNetworkInterfaceName": {
       "type": "string",
-      "defaultValue": "contoso"
-    },
-    "armParaPassword": {
-      "type": "securestring"
-    },
-    "armParaNumberOfWebSrvs": {
-      "type": "string",
-      "defaultValue": "1"
+      "defaultValue": "ChauNewNetworkInferface"
     },
     "repoInternalName": {
       "type": "string",
-      "defaultValue": "privaterepo543"
+      "defaultValue": "MitchellAlm"
     },
     "armTemplateName": {
       "type": "string",
-      "defaultValue": "iis-2vm-sql-1vm"
+      "defaultValue": "GaryTestEnv"
     }
   },
   "variables": {
@@ -49,16 +42,8 @@
         "deploymentProperties":{
           "parameters":[
             {
-              "name":"username",
-              "value":"[parameters('armParaName')]"
-            },
-            {
-              "name":"password",
-              "value":"[parameters('armParaPassword')]"
-            },
-            {
-              "name":"numberOfWebSrvs",
-              "value":"[parameters('armParaNumberOfWebSrvs')]"
+              "name": "TestNetworkInterfaceName",
+              "value": "[parameters('TestNetworkInterfaceName')]"
             }
           ],
           "armTemplateId":"[variables('templateId')]"
