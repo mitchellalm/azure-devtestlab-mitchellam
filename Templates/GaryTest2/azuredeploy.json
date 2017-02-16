@@ -1,0 +1,53 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "TestNetworkInterfaceName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "virtualNetworkName": {
+      "type": "string",
+      "defaultValue": "DtlMainDevTestLab"
+    },
+    "virtualNetworkResourceGroup": {
+      "type": "string",
+      "defaultValue": "MainDevTestLabRG895865"
+    }
+  },
+  "variables": {
+    "TestNetworkInterfaceVnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+    "TestNetworkInterfaceSubnetRef": "[concat(variables('TestNetworkInterfaceVnetID'), '/subnets/', 'DtlMainDevTestLabSubnet')]"
+    
+  },
+  "resources": [
+    {
+      "name": "[parameters('TestNetworkInterfaceName')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "westus2",
+      "apiVersion": "2016-03-30",
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "TestNetworkInterface"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('TestNetworkInterfaceSubnetRef')]"
+              }
+            }
+          }
+        ]
+      }
+    }
+    
+
+  ],
+  "outputs": {
+    
+  }
+}
