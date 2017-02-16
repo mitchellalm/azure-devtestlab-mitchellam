@@ -2,33 +2,67 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "TestNetworkInterfaceName": {
+    "newVMName": {
       "type": "string",
       "minLength": 1
     },
+    "newVMAdminUserName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "newVMAdminPassword": {
+      "type": "securestring"
+    },
+    "newVMWindowsOSVersion": {
+      "type": "string",
+      "defaultValue": "2012-R2-Datacenter",
+      "allowedValues": [
+        "2008-R2-SP1",
+        "2012-Datacenter",
+        "2012-R2-Datacenter",
+        "Windows-Server-Technical-Preview"
+      ]
+    },
+    "storageAccountName": {
+      "type": "string",
+      "defaultValue": "agarytestlab2490"
+    },
+    "storageAccountResourceGroup": {
+      "type": "string",
+      "defaultValue": "GaryTestLabRG037817"
+    },
     "virtualNetworkName": {
       "type": "string",
-      "defaultValue": "DtlMainDevTestLab"
+      "defaultValue": "Mitchell_Azure"
     },
     "virtualNetworkResourceGroup": {
       "type": "string",
-      "defaultValue": "MainDevTestLabRG895865"
+      "defaultValue": "ALM"
     }
+    
   },
   "variables": {
-    "TestNetworkInterfaceVnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
-    "TestNetworkInterfaceSubnetRef": "[concat(variables('TestNetworkInterfaceVnetID'), '/subnets/', 'DtlMainDevTestLabSubnet')]"
+    "newVMImagePublisher": "MicrosoftWindowsServer",
+    "newVMImageOffer": "WindowsServer",
+    "newVMOSDiskName": "newVMOSDisk",
+    "newVMVmSize": "Standard_D2_v2",
+    "newVMVnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+    "newVMSubnetRef": "[concat(variables('newVMVnetID'), '/subnets/', 'Subnet3')]",
+    "newVMStorageAccountContainerName": "vhds",
+    "newVMNicName": "[concat(parameters('newVMName'), 'NetworkInterface')]"
+    
+    
     
   },
   "resources": [
     {
-      "name": "[parameters('TestNetworkInterfaceName')]",
+      "name": "[variables('newVMNicName')]",
       "type": "Microsoft.Network/networkInterfaces",
-      "location": "westus2",
+      "location": "westus",
       "apiVersion": "2016-03-30",
       "dependsOn": [ ],
       "tags": {
-        "displayName": "TestNetworkInterface"
+        "displayName": "newVMNic"
       },
       "properties": {
         "ipConfigurations": [
@@ -37,13 +71,60 @@
             "properties": {
               "privateIPAllocationMethod": "Dynamic",
               "subnet": {
-                "id": "[variables('TestNetworkInterfaceSubnetRef')]"
+                "id": "[variables('newVMSubnetRef')]"
               }
             }
           }
         ]
       }
+    },
+    {
+      "name": "[parameters('newVMName')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "westus",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('newVMNicName'))]"
+      ],
+      "tags": {
+        "displayName": "newVM"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[variables('newVMVmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[parameters('newVMName')]",
+          "adminUsername": "[parameters('newVMAdminUsername')]",
+          "adminPassword": "[parameters('newVMAdminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('newVMImagePublisher')]",
+            "offer": "[variables('newVMImageOffer')]",
+            "sku": "[parameters('newVMWindowsOSVersion')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "newVMOSDisk",
+            "vhd": {
+              "uri": "[concat(reference(resourceId(parameters('storageAccountResourceGroup'), 'Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2016-01-01').primaryEndpoints.blob, variables('newVMStorageAccountContainerName'), '/', variables('newVMOSDiskName'), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('newVMNicName'))]"
+            }
+          ]
+        }
+      }
     }
+    
+    
     
 
   ],
