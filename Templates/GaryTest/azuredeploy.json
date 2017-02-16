@@ -2,25 +2,6 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "newVMName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the new vm to be created."
-      },
-      "defaultValue": "GaryTestVM"
-    },
-    "userName": {
-      "type": "string",
-      "metadata": {
-        "description": "The username for the local account that will be created on the new vm."
-      }
-    },
-    "password": {
-      "type": "securestring",
-      "metadata": {
-        "description": "The password for the local account that will be created on the new vm."
-      }
-    },
     "TestNetworkInterfaceName": {
       "type": "string",
       "minLength": 1
