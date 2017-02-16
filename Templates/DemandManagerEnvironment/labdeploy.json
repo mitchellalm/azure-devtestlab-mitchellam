@@ -4,7 +4,7 @@
   "parameters": {
     "labName": {
       "type": "string",
-      "defaultValue": "GaryTestLab"
+      "defaultValue": "MainDevTestLab"
     },
     "userObjectId": {
       "type": "string",
@@ -12,7 +12,7 @@
     },
     "environmentName": {
       "type": "string",
-      "defaultValue": "env001"
+      "defaultValue": "env009"
     },
     "armParaName": {
       "type": "string",
@@ -27,7 +27,7 @@
     },
     "repoInternalName": {
       "type": "string",
-      "defaultValue": "privaterepo543"
+      "defaultValue": "MitchellAlm"
     },
     "armTemplateName": {
       "type": "string",
@@ -70,6 +70,10 @@
     "environmentId": {
       "type": "string",
       "value": "[variables('environmentId')]"
+    },
+    "templateId": {
+      "type": "string",
+      "value": "[variables('TemplateId')]"
     }
   }
 }
