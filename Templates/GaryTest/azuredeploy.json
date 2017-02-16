@@ -20,12 +20,49 @@
       "metadata": {
         "description": "The password for the local account that will be created on the new vm."
       }
+    },
+    "TestNetworkInterfaceName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "virtualNetworkName": {
+      "type": "string",
+      "defaultValue": "DtlMainDevTestLab"
+    },
+    "virtualNetworkResourceGroup": {
+      "type": "string",
+      "defaultValue": "MainDevTestLabRG895865"
     }
   },
   "variables": {
+    "TestNetworkInterfaceVnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+    "TestNetworkInterfaceSubnetRef": "[concat(variables('TestNetworkInterfaceVnetID'), '/subnets/', 'DtlMainDevTestLabSubnet')]"
     
   },
   "resources": [
+    {
+      "name": "[parameters('TestNetworkInterfaceName')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "westus2",
+      "apiVersion": "2016-03-30",
+      "dependsOn": [ ],
+      "tags": {
+        "displayName": "TestNetworkInterface"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('TestNetworkInterfaceSubnetRef')]"
+              }
+            }
+          }
+        ]
+      }
+    }
     
 
   ],
