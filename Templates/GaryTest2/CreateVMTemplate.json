@@ -4,7 +4,7 @@
   "parameters": {
     "newVMName": {
       "type": "string",
-      "defaultValue": "autoVM4"
+      "defaultValue": "autoVM7"
     },
     "labName": {
       "type": "string",
@@ -33,6 +33,26 @@
     "Run_PowerShell.scriptToRun": {
       "type": "string",
       "defaultValue": "ConfigureWinRM.ps1"
+    },
+     "Active_Directory_Domain_Join.domainName": {
+      "type": "string",
+      "defaultValue": "staging.int"
+    },
+    "Active_Directory_Domain_Join.domainOU": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "Active_Directory_Domain_Join.domainJoinUser": {
+      "type": "string",
+      "defaultValue": "staging\\tfs_build_user"
+    },
+    "Active_Directory_Domain_Join.domainJoinUserPassword": {
+      "type": "securestring",
+      "defaultValue": "[[[tfsbuilduserPwd]]"
+    },
+    "Active_Directory_Domain_Join.domainJoinOptions": {
+      "type": "string",
+      "defaultValue": "3"
     }
   },
   "variables": {
@@ -62,7 +82,7 @@
         "storageType": "Standard",
         "allowClaim": false,
         "artifacts": [
-         
+
           {
             "artifactId": "[resourceId('Microsoft.DevTestLab/labs/artifactSources/artifacts', parameters('labName'), 'Public Repo',  'windows-run-powershell')]",
             "parameters": [
@@ -77,6 +97,31 @@
               {
                 "name": "scriptArguments",
                 "value": "[variables('hostDNSNameScriptArgument')]"
+              }
+            ]
+          },
+          {
+            "artifactId": "[resourceId('Microsoft.DevTestLab/labs/artifactSources/artifacts', parameters('labName'), 'public repo', 'windows-domain-join')]",
+            "parameters": [
+              {
+                "name": "domainName",
+                "value": "[parameters('Active_Directory_Domain_Join.domainName')]"
+              },
+              {
+                "name": "domainOU",
+                "value": "[parameters('Active_Directory_Domain_Join.domainOU')]"
+              },
+              {
+                "name": "domainJoinUser",
+                "value": "[parameters('Active_Directory_Domain_Join.domainJoinUser')]"
+              },
+              {
+                "name": "domainJoinUserPassword",
+                "value": "[parameters('Active_Directory_Domain_Join.domainJoinUserPassword')]"
+              },
+              {
+                "name": "domainJoinOptions",
+                "value": "[parameters('Active_Directory_Domain_Join.domainJoinOptions')]"
               }
             ]
           }
