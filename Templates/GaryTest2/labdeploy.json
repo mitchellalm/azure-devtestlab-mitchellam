@@ -4,7 +4,7 @@
   "parameters": {
     "labName": {
       "type": "string",
-      "defaultValue": "UltimateLab"
+      "defaultValue": "GaryTestLab"
     },
     "userObjectId": {
       "type": "string",
@@ -20,7 +20,7 @@
     },
     "repoInternalName": {
       "type": "string",
-      "defaultValue": "MitchellAlm"
+      "defaultValue": "MitchellAlmRepo"
     },
     "armTemplateName": {
       "type": "string",

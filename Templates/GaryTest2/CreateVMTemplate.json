@@ -1,0 +1,95 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "newVMName": {
+      "type": "string",
+      "defaultValue": "autoVM3"
+    },
+    "labName": {
+      "type": "string",
+      "defaultValue": "GaryTestLab"
+    },
+    "size": {
+      "type": "string",
+      "defaultValue": "Standard_DS1_v2"
+    },
+    "userName": {
+      "type": "string",
+      "defaultValue": "chau"
+    },
+    "password": {
+      "type": "securestring",
+      "defaultValue": "[[[tfsbuilduserPwd]]"
+    },
+    
+   /* WinRM Custom Script Parameters */
+     "Run_PowerShell.scriptFileUris": {
+      "type": "string",
+      "defaultValue": "[[\"https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/201-vm-winrm-windows/ConfigureWinRM.ps1\", 
+                        \"https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/201-vm-winrm-windows/makecert.exe\", 
+                        \"https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/201-vm-winrm-windows/winrmconf.cmd\"]"
+    },
+    "Run_PowerShell.scriptToRun": {
+      "type": "string",
+      "defaultValue": "ConfigureWinRM.ps1"
+    }
+  },
+  "variables": {
+    "labSubnetName": "Subnet3",
+    "labVirtualNetworkId": "[resourceId('Microsoft.DevTestLab/labs/virtualnetworks', parameters('labName'), variables('labVirtualNetworkName'))]",
+    "labVirtualNetworkName": "mitchell__azure",
+    "vmId": "[resourceId ('Microsoft.DevTestLab/labs/virtualmachines', parameters('labName'), parameters('newVMName'))]",
+    "vmName": "[concat(parameters('labName'), '/', parameters('newVMName'))]",
+    "hostDNSNameScriptArgument": "*.staging.int"
+  },
+  "resources": [
+    {
+      "apiVersion": "2016-05-15",
+      "type": "Microsoft.DevTestLab/labs/virtualmachines",
+      "name": "[variables('vmName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "labVirtualNetworkId": "[variables('labVirtualNetworkId')]",
+        "notes": "SqlDdrive",
+        "customImageId": "/subscriptions/352b4bd5-2f5d-4e82-ab23-37e96afc58b1/resourcegroups/garytestlabrg037817/providers/microsoft.devtestlab/labs/garytestlab/customimages/sqlddrive",
+        "size": "[parameters('size')]",
+        "userName": "[parameters('userName')]",
+        "password": "[parameters('password')]",
+        "isAuthenticationWithSshKey": false,
+        "labSubnetName": "[variables('labSubnetName')]",
+        "disallowPublicIpAddress": true,
+        "storageType": "Standard",
+        "allowClaim": false,
+        "artifacts": [
+         
+          {
+            "artifactId": "[resourceId('Microsoft.DevTestLab/labs/artifactSources/artifacts', parameters('labName'), 'Public Repo',  'windows-run-powershell')]",
+            "parameters": [
+              {
+                "name": "scriptFileUris",
+                "value": "[parameters('Run_PowerShell.scriptFileUris')]"
+              },
+              {
+                "name": "scriptToRun",
+                "value": "[parameters('Run_PowerShell.scriptToRun')]"
+              },
+              {
+                "name": "scriptArguments",
+                "value": "[variables('hostDNSNameScriptArgument')]"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  
+
+  "outputs": {
+    "labVMId": {
+      "type": "string",
+      "value": "[variables('vmId')]"
+    }
+  }
+}
