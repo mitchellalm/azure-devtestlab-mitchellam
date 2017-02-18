@@ -4,7 +4,7 @@
   "parameters": {
     "newVMName": {
       "type": "string",
-      "defaultValue": "autoVM3"
+      "defaultValue": "autoVM4"
     },
     "labName": {
       "type": "string",
@@ -41,7 +41,7 @@
     "labVirtualNetworkName": "mitchell__azure",
     "vmId": "[resourceId ('Microsoft.DevTestLab/labs/virtualmachines', parameters('labName'), parameters('newVMName'))]",
     "vmName": "[concat(parameters('labName'), '/', parameters('newVMName'))]",
-    "hostDNSNameScriptArgument": "*.staging.int"
+    "hostDNSNameScriptArgument": "*"
   },
   "resources": [
     {
