@@ -2,63 +2,88 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "newVMName": {
+      "type": "string",
+      "defaultValue": "autoVM7"
+    },
     "labName": {
       "type": "string",
       "defaultValue": "GaryTestLab"
     },
-    "userObjectId": {
+    "size": {
       "type": "string",
-      "defaultValue": "@me"
+      "defaultValue": "Standard_DS1_v2"
     },
-    "environmentName": {
+    "userName": {
       "type": "string",
-      "defaultValue": "env003"
+      "defaultValue": "chau"
     },
-    "TestNetworkInterfaceName": {
-      "type": "string",
-      "defaultValue": "ChauNewNetworkInferface"
+    "password": {
+      "type": "securestring",
+      "defaultValue": "[[[tfsbuilduserPwd]]"
     },
-    "repoInternalName": {
+    
+   /* WinRM Custom Script Parameters */
+     "Run_PowerShell.scriptFileUris": {
       "type": "string",
-      "defaultValue": "MitchellAlmRepo"
+      "defaultValue": "[[\"https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/201-vm-winrm-windows/ConfigureWinRM.ps1\", 
+                        \"https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/201-vm-winrm-windows/makecert.exe\", 
+                        \"https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/201-vm-winrm-windows/winrmconf.cmd\"]"
     },
-    "armTemplateName": {
+    "Run_PowerShell.scriptToRun": {
       "type": "string",
-      "defaultValue": "GaryTest"
+      "defaultValue": "ConfigureWinRM.ps1"
+    },
+     "Active_Directory_Domain_Join.domainName": {
+      "type": "string",
+      "defaultValue": "staging.int"
+    },
+    "Active_Directory_Domain_Join.domainOU": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "Active_Directory_Domain_Join.domainJoinUser": {
+      "type": "string",
+      "defaultValue": "staging\\tfs_build_user"
+    },
+    "Active_Directory_Domain_Join.domainJoinUserPassword": {
+      "type": "securestring",
+      "defaultValue": "[[[tfsbuilduserPwd]]"
+    },
+    "Active_Directory_Domain_Join.domainJoinOptions": {
+      "type": "string",
+      "defaultValue": "3"
     }
   },
   "variables": {
-    "envName": "[concat(parameters('labName'), '/', parameters('userObjectId'), '/', parameters('environmentName'))]",
-    "templateId": "[resourceId('Microsoft.DevTestLab/labs/artifactSources/armTemplates', parameters('labName'), parameters('repoInternalName'), parameters('armTemplateName'))]",
-    "environmentId": "[resourceId ('Microsoft.DevTestLab/labs/environment', parameters('labName'), parameters('environmentName'))]"
+    "labSubnetName": "Subnet3",
+    "labVirtualNetworkId": "[resourceId('Microsoft.DevTestLab/labs/virtualnetworks', parameters('labName'), variables('labVirtualNetworkName'))]",
+    "labVirtualNetworkName": "mitchell__azure",
+    "vmId": "[resourceId ('Microsoft.DevTestLab/labs/virtualmachines', parameters('labName'), parameters('newVMName'))]",
+    "vmName": "[concat(parameters('labName'), '/', parameters('newVMName'))]",
+    "hostDNSNameScriptArgument": "*"
   },
   "resources": [
-    {
-      "apiVersion": "2016-05-15",
-      "type": "Microsoft.DevTestLab/labs/users/environments",
-      "name": "[variables('envName')]",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "deploymentProperties":{
-          "parameters":[
-            {
-              "name": "TestNetworkInterfaceName",
-              "value": "[parameters('TestNetworkInterfaceName')]"
-            }
-          ],
-          "armTemplateId":"[variables('templateId')]"
-        }
-      }
-    }
+  
   ],
+
+
   "outputs": {
-    "environmentId": {
+    "labVMId": {
       "type": "string",
-      "value": "[variables('environmentId')]"
+      "value": "[variables('vmId')]"
     },
-    "templateId": {
+    "labVMName": {
       "type": "string",
-      "value": "[variables('templateId')]"
+      "value": "[variables('vmName')]"
+    },
+    "username": {
+      "type": "string",
+      "value": "[parameters('userName')]"
+    },
+    "password": {
+      "type": "string",
+      "value": "[parameters('password')]"
     }
   }
 }

@@ -67,8 +67,12 @@
     {
       "apiVersion": "2016-05-15",
       "type": "Microsoft.DevTestLab/labs/virtualmachines",
-      "name": "[variables('vmName')]",
+      "name": "[concat(variables('vmName'), copyIndex())]",
       "location": "[resourceGroup().location]",
+      "copy": {
+        "name": "VMscopy",
+        "count": 3
+      },
       "properties": {
         "labVirtualNetworkId": "[variables('labVirtualNetworkId')]",
         "notes": "SqlDdrive",
