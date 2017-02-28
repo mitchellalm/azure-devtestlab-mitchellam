@@ -1,0 +1,113 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "VmName": {
+            "defaultValue": "ColinVm3",
+            "type": "String"
+        },
+        "subNetID": {
+            "defaultValue": "/subscriptions/352b4bd5-2f5d-4e82-ab23-37e96afc58b1/resourceGroups/ALM/providers/Microsoft.Network/virtualNetworks/Mitchell_Azure/subnets/Subnet3",
+            "type": "String"
+        },
+        "DataDiskGoldenImageUri": {
+            "defaultValue": "https://aasgarytestlab6482.blob.core.windows.net/goldenvhd/GoldenDataDisk.vhd",
+            "type": "String"
+        },
+        "OSDiskGoldenImageUri": {
+            "defaultValue": "https://aasgarytestlab6482.blob.core.windows.net/goldenvhd/GoldenOSDisk.vhd",
+            "type": "String"
+        }
+    },
+    "variables": {
+        "NICName": "[concat(parameters('VmName'),'-NIC')]"
+    },
+    "resources": [
+        {
+            "comments": "Generalized from resource: '/subscriptions/352b4bd5-2f5d-4e82-ab23-37e96afc58b1/resourceGroups/GaryTestLab-ColinVm3-814319/providers/Microsoft.Compute/virtualMachines/ColinVm3'.",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('VmName')]",
+            "apiVersion": "2015-06-15",
+            "location": "westus",
+            "tags": {
+                "GaryTag": "Something will be here. Place holder",
+                "BU": "ACS"
+            },
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_DS1_v2"
+                },
+                 "osProfile": {
+                    "computerName": "[parameters('VmName')]",
+                    "adminUsername": "colin",
+                    "adminPassword": "abciBreakUbuildss79898"
+                },
+                "storageProfile": {
+                    "osDisk": {
+                        "name": "[concat(parameters('VmName'), '-OS')]",
+                        "osType": "windows",
+                        "createOption": "FromImage",
+                        "image": {
+                            "uri": "[parameters('OSDiskGoldenImageUri')]"
+                        },
+                        "vhd": {
+                            "uri": "[concat('https://aasgarytestlab6482.blob.core.windows.net/vhds/', parameters('VmName'), '-OS.vhd')]"
+                        },
+                        "caching": "ReadWrite"
+                    },
+                    "dataDisks": [
+                        {
+                            "lun": 0,
+                            "name": "[concat(parameters('VmName'),'-DataDisk')]",
+                            "createOption": "FromImage",
+                             "image": {
+                                "uri": "[parameters('DataDiskGoldenImageUri')]"
+                             },
+                            "vhd": {
+                                "uri": "[concat('https://aasgarytestlab6482.blob.core.windows.net/vhds/', parameters('VmName'), '-DataDisk.vhd')]"
+                            },
+                            "caching": "None"
+                        }
+                    ]
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('NICName'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces', variables('NICName'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/352b4bd5-2f5d-4e82-ab23-37e96afc58b1/resourceGroups/GaryTestLab-ColinVm3-814319/providers/Microsoft.Network/networkInterfaces/ColinVm3'.",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[variables('NICName')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "[concat(variables('NICName'),'-IP')]",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[parameters('subNetID')]"
+                            }
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableIPForwarding": false
+            },
+            "resources": [],
+            "dependsOn": []
+        }
+    ]
+}
